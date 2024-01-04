@@ -6,7 +6,7 @@ import "next/link";
 import Banner_page from "@/app/_components/banner/Banner_page";
 import PaginationButtons from "@/app/_components/components/PaginationButtonsProps";
 
-const IdeaManage = () => {
+const HomeManage = () => {
   const itemsPerPage = 10;
   const totalItems = 100; //최대 게시글 게수
   const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -32,9 +32,7 @@ const IdeaManage = () => {
     <Layout>
       <main className="w-full h-full bg-gray-200 text-black">
         <div className="flex items-center justify-between px-4 py-3">
-          <p className="items-center text-lg">
-            배너 관리 - 아이디어 존 관리 배너
-          </p>
+          <p className="items-center text-lg">배너 관리 - 홈화면 배너</p>
         </div>
         <div className="flex-col mx-6 p-5 h-screen bg-white">
           <div className="flex items-center justify-between w-full">
@@ -71,4 +69,4 @@ const IdeaManage = () => {
   );
 };
 
-export default IdeaManage;
+export default HomeManage;

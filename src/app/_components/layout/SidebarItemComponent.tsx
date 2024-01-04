@@ -1,32 +1,62 @@
-// 재귀적으로 사이드바 항목을 렌더링하는 컴포넌트
 import React, { useState } from "react";
+import Link from "next/link";
 
 type SidebarItem = {
+  url: string | null;
   id: string;
   label: string;
   children?: SidebarItem[];
 };
 
-const SidebarItemComponent: React.FC<{ item: SidebarItem }> = ({ item }) => {
+const SidebarItemComponent: React.FC<{
+  item: SidebarItem;
+  currentPage: string | null;
+  setCurrentPage: (page: string | null) => void;
+}> = ({ item, currentPage, setCurrentPage }) => {
   const [isOpen, setIsOpen] = useState(true);
 
   const handleItemClick = () => {
     setIsOpen(!isOpen);
+    setCurrentPage(item.url);
   };
+
+  const isTopLevel = item.id === "1";
+  const isCurrentPage = currentPage === item.url;
+
+  const handleClick = () => {};
 
   return (
     <div className="mt-2">
-      <div
-        className="cursor-pointer p-2 rounded-md transition-colors duration-300 hover:bg-yellow-300 text-black"
-        onClick={handleItemClick}
-      >
-        {item.label}
-      </div>
+      {isTopLevel ? (
+        <div
+          className={`cursor-pointer p-2 rounded-md transition-colors duration-300 ${
+            isCurrentPage ? "bg-yellow-300" : ""
+          } text-black`}
+          onClick={handleItemClick}
+        >
+          {item.label}
+        </div>
+      ) : (
+        <Link href={item.url ? `/${item.url}` : "#"}>
+          <div
+            className={`cursor-pointer p-2 rounded-md transition-colors duration-300 ${
+              isCurrentPage ? "bg-yellow-300" : ""
+            } text-black`}
+            onClick={handleItemClick}
+          >
+            {item.label}
+          </div>
+        </Link>
+      )}
       {isOpen && item.children && (
         <ul className="ml-4">
           {item.children.map((child) => (
             <li key={child.id}>
-              <SidebarItemComponent item={child} />
+              <SidebarItemComponent
+                item={child}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
             </li>
           ))}
         </ul>
